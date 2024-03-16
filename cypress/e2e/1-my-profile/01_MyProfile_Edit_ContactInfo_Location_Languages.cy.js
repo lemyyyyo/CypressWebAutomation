@@ -117,36 +117,44 @@ describe('E2E Test: User Profile Editing', () => {
             cy.get('.row div.col-auto.ml-7 p.sui-text-b3').should('contain', newPostalCode);
         });
 
+        // Click languages
+        cy.contains('a', 'Languages').click();
 
-        // // Click languages
-        // cy.contains('a', 'Languages').click();
+        // Check if the languages label is displayed
+        cy.get('h2').contains('Languages');
 
-        // // Check if the languages label is displayed
-        // cy.get('h2').contains('Languages');
+        // Check the current primary language and save to a variable
+        cy.get('.primary-language > :nth-child(1) > :nth-child(1) > .col-lg-12 > .sui-text-b3').invoke('text').then(text => {
+            const currentLanguage = text.trim();
+            cy.log(currentLanguage);
 
-        // // Check the current primary language and save to a variable
-        // let primaryLanguage;
+            let newLanguage;
+            if (currentLanguage === 'English (Austria)') {
+                newLanguage = 'English (Brazil)';
+            } else if (currentLanguage === 'English (Brazil)') {
+                newLanguage = 'English (Austria)';
+            }
+            cy.log(newLanguage);
 
-        // cy.get('p.sui-text-b3.tw-font-bold.sui-text-darkGray-darker').invoke('text').then(text => {
-        //     primaryLanguage = text.trim();
+            // Alias the new language to use later
+            cy.wrap(newLanguage).as('newLanguage');
 
-        // });
+            // Click the primary language edit button
+            cy.get('.col-auto > .row').click();
 
-        // // Click the primary language edit button
-        // cy.get('.col-auto > .row').click();
+            // Click the primary language dropdown
+            cy.get(':nth-child(1) > .sc-dlnjwi > .row > .col-lg-12 > .sui-c-input-dropdown-container > .sui-c-input-dropdown__control > .sui-c-input-dropdown__value-container').click();
 
-        // // Click the primary language dropdown
-        // cy.get(':nth-child(1) > .sc-dlnjwi > .row > .col-lg-12 > .sui-c-input-dropdown-container > .sui-c-input-dropdown__control > .sui-c-input-dropdown__value-container').click();
+            // Select another language
+            cy.get(':nth-child(1) > .sc-dlnjwi > .row > .col-lg-12 > .sui-c-input-dropdown-container > .sui-c-input-dropdown__control > .sui-c-input-dropdown__value-container').type(newLanguage);
+            cy.focused().trigger('keydown', { keyCode: 9, which: 9 });
 
-        // // Select another language
-        // cy.get(':nth-child(1) > .sc-dlnjwi > .row > .col-lg-12 > .sui-c-input-dropdown-container > .sui-c-input-dropdown__control > .sui-c-input-dropdown__value-container').type('English (Austria)');
-        // cy.focused().trigger('keydown', { keyCode: 9, which: 9 });
+            // Click save
+            cy.get('.sui-gap-2 > .sui-c-btn-primary').click();
 
-        // // Click save
-        // cy.get('.sui-gap-2 > .sui-c-btn-primary').click();
-
-        // // Check if the primary language is updated
-        // cy.get('p.sui-text-b3.tw-font-bold.sui-text-darkGray-darker').should('contain', 'English (Austria)');
+            // Check if the primary language is updated
+            cy.get('p.sui-text-b3.tw-font-bold.sui-text-darkGray-darker').should('contain', newLanguage);
+        });
 
         // // Check the current other languages and save to a variable
         // let otherLanguages;
