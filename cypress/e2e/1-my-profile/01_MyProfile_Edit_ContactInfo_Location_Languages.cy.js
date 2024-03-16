@@ -1,5 +1,10 @@
 /// <reference types="cypress" />
 
+import * as loginMethods from '../../page-methods/loginMethods';
+import * as homeMethods from '../../page-methods/homeMethods';
+import * as navigationsMethods from '../../page-methods/navigationsMethods';
+import * as myProfileMethods from '../../page-methods/myProfileMethods';
+
 describe('E2E Test: User Profile Editing', () => {
     beforeEach(() => {
         // Visit the login page
@@ -7,196 +12,75 @@ describe('E2E Test: User Profile Editing', () => {
     });
 
     it('should log in, edit profile, add languages, and log out', () => {
-        // Check first if the user is navigated to the sign in page and welcome text is displayed
+        // Check first if the user is navigated to the sign in page
         cy.url().should('include', 'https://www.telusinternational.ai/cmp/');
-        cy.get('.md\\:px-7 > .sui-font-heading').contains('Welcome back!').should('be.visible');
+
+        // Check if welcome text is displayed
+        loginMethods.checkWelcomeText();
 
         // Enter username and click continue
-        cy.get('label.sui-w-full > .focus\\:sui-outline-none').type('menorcalimuel@gmail.com');
-        cy.contains('button.sui-c-btn-primary', 'Continue').click();
+        loginMethods.enterUsernameAndContinue('menorcalimuel@gmail.com');
 
         // Check first if the correct email address is displayed
-        cy.get('.sui-font-medium').contains('menorcalimuel@gmail.com').should('be.visible');
+        loginMethods.checkEmailText('menorcalimuel@gmail.com');
 
         // Enter password and click sign in
-        cy.get('label.sui-w-full > .focus\\:sui-outline-none').type('TelusIntPass13!');
-        cy.get('.sui-c-btn-primary').click();
+        loginMethods.enterPasswordAndSignIn('TelusIntPass13!');
 
-        // Check if the user is navigated to dashboard and home is displayed
+        // Check if the user is navigated to dashboard
         cy.url().should('eq', 'https://www.telusinternational.ai/cmp/contributor/dashboard');
-        cy.get('.sui-text-b1').contains('Home').should('be.visible');
 
-        // // Check if the correct user info is displayed
-        // cy.get('.col-lg-8 > .sui-font-heading').contains('Limuel Il Menorca').should('be.visible');
-        // cy.get('.col-lg-8 > .sui-text-darkGray-lighter').contains('menorcalimuel@gmail.com').should('be.visible');
-        // cy.get('.tw-mt-1').contains('65f2973cbb4e7cf68cb8eca2').should('be.visible');
+        // Check if home header is displayed
+        homeMethods.checkHomeText();
 
-        // // Check first if the profile icon is displayed then click
-        // cy.get('.sui-gap-2 > .sui-rounded-full > .sui-flex').contains('LM').should('be.visible');
-        // cy.get('.sui-gap-2 > .sui-rounded-full > .sui-flex').contains('LM').click();
+        // Check if the correct user info is displayed
+        homeMethods.checkUserInfo('Limuel Il Menorca', 'menorcalimuel@gmail.com', '65f2973cbb4e7cf68cb8eca2');
 
-        // // Verify user details in the my profile menu
-        // cy.get('.sui-px-1')
-        //     .should('contain', 'Limuel Il Menorca')
-        //     .should('contain', 'menorcalimuel@gmail.com')
-        //     .should('contain', '65f2973cbb4e7cf68cb8eca2');
+        // Check first if the profile icon is correct then click it
+        navigationsMethods.verifyProfileIcon('LM');
+        navigationsMethods.clickProfileIcon();
 
-        // // Click my profile link
-        // cy.get('span.sui-ml-sm').contains('My Profile').click();
+        // Verify that the user details in the my profile menu is correct
+        navigationsMethods.verifyProfileDetails('Limuel Il Menorca', 'menorcalimuel@gmail.com', '65f2973cbb4e7cf68cb8eca2');
 
-        // // Verify my profile header
-        // cy.contains('h1', 'My Profile').should('be.visible');
+        // Click my profile link
+        navigationsMethods.clickMyProfileLink();
 
-        // // Check if the user avatar is correct
-        // cy.get('div.sui-rounded-full').should('contain', 'LM');
+        // Verify my profile header
+        myProfileMethods.checkMyProfileText();
 
-        // // Verify user details in the 
-        // cy.get('.avatar-profile-text-wrap')
-        //     .should('contain', 'Limuel Il Menorca')
-        //     .should('contain', 'menorcalimuel@gmail.com')
-        //     .should('contain', '65f2973cbb4e7cf68cb8eca2');
+        // Check if the user avatar is correct
+        myProfileMethods.checkAvatarIcon('LM');
 
-        // // Check if the contact information label is displayed
-        // cy.get('div').contains('Contact Information');
+        // Verify user details in my profile
+        myProfileMethods.verifyMyProfileDetails('Limuel Il Menorca', 'menorcalimuel@gmail.com', '65f2973cbb4e7cf68cb8eca2');
 
-        // // Check the current phone number and save to a variable
-        // cy.get('.mb-7 > .col > .sui-text-b3').invoke('text').then(text => {
-        //     const currentPhoneNumber = text.trim();
-        //     cy.log(currentPhoneNumber);
+        // Check if the contact information label is displayed
+        myProfileMethods.checkContactInfoText();
 
-        //     let newPhoneNumber;
-        //     if (currentPhoneNumber === '9152660380') {
-        //         newPhoneNumber = '9152660381';
-        //     } else if (currentPhoneNumber === '9152660381') {
-        //         newPhoneNumber = '9152660380';
-        //     }
-        //     cy.log(newPhoneNumber);
+        // Update the phone number with the new value
+        myProfileMethods.editPhoneNumber();
 
-        //     // Alias the new phone number to use later
-        //     cy.wrap(newPhoneNumber).as('newPhoneNumber');
+        // Check if the location label is displayed
+        myProfileMethods.checkLocationText();
 
-        //     // Click the contact information edit button
-        //     cy.get('.figma-section-header-text-margin > .col-lg-2 > .sui-rounded').click();
+        // Update the postal code
+        myProfileMethods.editPostalCode();
 
-        //     // Update the phone number input with the new value
-        //     cy.get('input[name="phone_number.line_number"]').clear().type(newPhoneNumber);
+        // Click languages
+        myProfileMethods.clickLanguagesLink();
 
-        //     // Click save
-        //     cy.get('.sui-gap-2 > .sui-c-btn-primary').click();
+        // Check if the languages header is displayed
+        myProfileMethods.checkLanguagesText();
 
-        //     // Check if the phone number is updated
-        //     cy.get('p.sui-text-b3').should('contain', newPhoneNumber);
-        // });
+        // Update the primary language
+        myProfileMethods.changePrimaryLanguage();
 
-        // // Check the current postal code and save to a variable
-        // cy.get('.col-lg-12 > :nth-child(3) > .col-auto > .sui-text-b3').invoke('text').then(text => {
-        //     const currentPostalCode = text.trim();
-        //     cy.log(currentPostalCode);
+        // Update the other language
+        myProfileMethods.changeOtherLanguage();
 
-        //     let newPostalCode;
-        //     if (currentPostalCode === '1770') {
-        //         newPostalCode = '1771';
-        //     } else if (currentPostalCode === '1771') {
-        //         newPostalCode = '1770';
-        //     }
-        //     cy.log(newPostalCode);
-
-        //     // Alias the new postal code to use later
-        //     cy.wrap(newPostalCode).as('newPostalCode');
-
-        //     // Click the location edit button
-        //     cy.get(':nth-child(1) > :nth-child(1) > .col-lg-2 > .sui-rounded').click();
-
-        //     // Update the postal code input with the new value
-        //     cy.get('input[name="postalCode"]').clear().type(newPostalCode);
-
-        //     // Click save
-        //     cy.get('.sui-gap-2 > .sui-c-btn-primary').click();
-
-        //     // Check if the postal code is updated
-        //     cy.get('.row div.col-auto.ml-7 p.sui-text-b3').should('contain', newPostalCode);
-        // });
-
-        // // Click languages
-        // cy.contains('a', 'Languages').click();
-
-        // // Check if the languages label is displayed
-        // cy.get('h2').contains('Languages');
-
-        // // Check the current primary language and save to a variable
-        // cy.get('.primary-language > :nth-child(1) > :nth-child(1) > .col-lg-12 > .sui-text-b3').invoke('text').then(text => {
-        //     const currentLanguage = text.trim();
-        //     cy.log(currentLanguage);
-
-        //     let newLanguage;
-        //     if (currentLanguage === 'English (Austria)') {
-        //         newLanguage = 'English (Brazil)';
-        //     } else if (currentLanguage === 'English (Brazil)') {
-        //         newLanguage = 'English (Austria)';
-        //     }
-        //     cy.log(newLanguage);
-
-        //     // Alias the new language to use later
-        //     cy.wrap(newLanguage).as('newLanguage');
-
-        //     // Click the primary language edit button
-        //     cy.get('.col-auto > .row').click();
-
-        //     // Click the primary language dropdown
-        //     cy.get(':nth-child(1) > .sc-dlnjwi > .row > .col-lg-12 > .sui-c-input-dropdown-container > .sui-c-input-dropdown__control > .sui-c-input-dropdown__value-container').click();
-
-        //     // Select another language
-        //     cy.get(':nth-child(1) > .sc-dlnjwi > .row > .col-lg-12 > .sui-c-input-dropdown-container > .sui-c-input-dropdown__control > .sui-c-input-dropdown__value-container').type(newLanguage);
-        //     cy.focused().trigger('keydown', { keyCode: 9, which: 9 });
-
-        //     // Click save
-        //     cy.get('.sui-gap-2 > .sui-c-btn-primary').click();
-
-        //     // Check if the primary language is updated
-        //     cy.get('p.sui-text-b3.tw-font-bold.sui-text-darkGray-darker').should('contain', newLanguage);
-        // });
-
-        // // Check the current other languages and save to a variable
-        // cy.get(':nth-child(1) > :nth-child(1) > :nth-child(1) > .col-lg-12 > .sui-text-b3').invoke('text').then(text => {
-        //     const currentOtherLanguage = text.trim();
-        //     cy.log(currentOtherLanguage);
-
-        //     let newOtherLanguage;
-        //     if (currentOtherLanguage === 'Arabic (Chad)') {
-        //         newOtherLanguage = 'Arabic (Canada)';
-        //     } else if (currentOtherLanguage === 'Arabic (Canada)') {
-        //         newOtherLanguage = 'Arabic (Chad)';
-        //     }
-        //     cy.log(newOtherLanguage);
-
-        //     // Alias the new other language to use later
-        //     cy.wrap(newOtherLanguage).as('newOtherLanguage');
-
-        //     // Click other languages edit button
-        //     cy.get('.edit-div').click();
-
-        //     // Click other languages dropdown
-        //     cy.get(':nth-child(1) > .sc-dlnjwi > .row > .col-lg-12 > .sui-c-input-dropdown-container > .sui-c-input-dropdown__control > .sui-c-input-dropdown__value-container').click();
-
-        //     // Type another language
-        //     cy.get(':nth-child(1) > .sc-dlnjwi > .row > .col-lg-12 > .sui-c-input-dropdown-container > .sui-c-input-dropdown__control > .sui-c-input-dropdown__value-container').type(newOtherLanguage);
-        //     cy.focused().trigger('keydown', { keyCode: 9, which: 9 });
-
-        //     // Click save
-        //     cy.get('.sui-c-btn-primary').click();
-
-        //     // Check if other languages is updated
-        //     cy.get('p.sui-text-b3.tw-font-bold.sui-text-darkGray-darker').should('not.contain', newOtherLanguage);
-        // });
-
-        // // Click my profile menu
-        // cy.get('.sui-gap-2 > .sui-rounded-full > .sui-flex').contains('LM').click();
-
-        // // Click sign out link
-        // cy.get(':nth-child(3) > .sui-cursor-pointer > .sui-ml-sm').click();
-
-        // // Check first if the user is navigated back to the sign in page and welcome text is displayed
-        // cy.get('.md\\:px-7 > .sui-font-heading').contains('Welcome back!').should('be.visible');
+        // Sign out
+        navigationsMethods.signOut();
 
     });
 });

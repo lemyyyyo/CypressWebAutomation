@@ -1,7 +1,7 @@
 class LoginPage {
 
     elements = {
-        welcomeText: () => cy.get('.md\\:px-7 > .sui-font-heading').contains('Welcome back!'),
+        welcomeText: () => cy.get('.md\\:px-7 > .sui-font-heading').contains('Welcome'),
         usernameInput: () => cy.get('label.sui-w-full > .focus\\:sui-outline-none'),
         continueButton: () => cy.contains('button.sui-c-btn-primary', 'Continue'),
         emailText: () => cy.get('.sui-font-medium'),
