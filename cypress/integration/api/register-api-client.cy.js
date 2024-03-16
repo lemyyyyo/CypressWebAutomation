@@ -9,11 +9,13 @@ describe('Simple Books API Tests', () => {
       url: testData.apibaseurl + 'api-clients/',
       body: {
         clientName: 'Tech Exam 01',
-        clientEmail: 'menorcalimuel02@gmail.com',
+        clientEmail: 'menorcalimuel03@gmail.com',
       },
     }).then((response) => {
       expect(response.status).to.eq(201);
       authToken = response.body.accessToken;
+
+      cy.writeFile('cypress/fixtures/auth-token.json', { authToken });
     });
   });
 
