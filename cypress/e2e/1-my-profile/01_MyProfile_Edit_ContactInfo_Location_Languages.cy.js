@@ -15,17 +15,8 @@ describe('E2E Test: User Profile Editing', () => {
         // Check first if the user is navigated to the sign in page
         cy.url().should('include', 'https://www.telusinternational.ai/cmp/');
 
-        // Check if welcome text is displayed
-        loginMethods.checkWelcomeText();
-
-        // Enter username and click continue
-        loginMethods.enterUsernameAndContinue('menorcalimuel@gmail.com');
-
-        // Check first if the correct email address is displayed
-        loginMethods.checkEmailText('menorcalimuel@gmail.com');
-
-        // Enter password and click sign in
-        loginMethods.enterPasswordAndSignIn('TelusIntPass13!');
+        // Login using correct credentials
+        loginMethods.signIn('menorcalimuel@gmail.com', 'TelusIntPass13!');
 
         // Check if the user is navigated to dashboard
         cy.url().should('eq', 'https://www.telusinternational.ai/cmp/contributor/dashboard');

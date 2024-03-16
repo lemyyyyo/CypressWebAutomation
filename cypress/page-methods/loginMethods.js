@@ -19,3 +19,15 @@ export function enterPasswordAndSignIn(password) {
     loginPage.elements.passwordInput().type(password);
     loginPage.elements.signinButton().click();
 }
+
+export function signIn(username, password) {
+    loginPage.elements.welcomeText().should('be.visible');
+
+    loginPage.elements.usernameInput().type(username);
+    loginPage.elements.continueButton().click();
+    
+    loginPage.elements.emailText().should('contain', username);
+
+    loginPage.elements.passwordInput().type(password);
+    loginPage.elements.signinButton().click();
+}
