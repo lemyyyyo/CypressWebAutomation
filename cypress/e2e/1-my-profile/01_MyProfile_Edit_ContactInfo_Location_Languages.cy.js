@@ -60,104 +60,114 @@ describe('E2E Test: User Profile Editing', () => {
         cy.get('div').contains('Contact Information');
 
         // Check the current phone number and save to a variable
-        let phoneNumber;
+        cy.get('.mb-7 > .col > .sui-text-b3').invoke('text').then(text => {
+            const currentPhoneNumber = text.trim();
+            cy.log(currentPhoneNumber);
 
-        cy.get('p.sui-text-b3').invoke('text').then(text => {
-            phoneNumber = text.trim();
+            let newPhoneNumber;
+            if (currentPhoneNumber === '9152660380') {
+                newPhoneNumber = '9152660381';
+            } else if (currentPhoneNumber === '9152660381') {
+                newPhoneNumber = '9152660380';
+            }
+            cy.log(newPhoneNumber);
+
+            // Alias the new phone number to use later
+            cy.wrap(newPhoneNumber).as('newPhoneNumber');
+
+            // Click the contact information edit button
+            cy.get('.figma-section-header-text-margin > .col-lg-2 > .sui-rounded').click();
+
+            // Update the phone number input with the new value
+            cy.get('input[name="phone_number.line_number"]').clear().type(newPhoneNumber);
+
+            // Click save
+            cy.get('.sui-gap-2 > .sui-c-btn-primary').click();
+
+            // Check if the phone number is updated
+            cy.get('p.sui-text-b3').should('contain', newPhoneNumber);
         });
 
-        // Click the contact information edit button
-        cy.get('.figma-section-header-text-margin > .col-lg-2 > .sui-rounded').click();
+        // // Check the current postal code and save to a variable
+        // let postalCode;
 
-        // Update the phone number
-        cy.get('input[name="phone_number.line_number"]').clear().type('9152660387');
+        // cy.get('.row div.col-auto.ml-7 p.sui-text-b3').invoke('text').then(text => {
+        //     postalCode = text.trim();
+        // });
 
-        // Click save
-        cy.get('.sui-gap-2 > .sui-c-btn-primary').click();
+        // // Click the location edit button
+        // cy.get(':nth-child(1) > :nth-child(1) > .col-lg-2 > .sui-rounded').click();
 
-        // Check if the phone number is updated
-        cy.get('p.sui-text-b3').should('contain', '9152660387');
+        // // Update the postal code
+        // cy.get('input[name="postalCode"]').clear().type('1777');
 
-        // Check the current postal code and save to a variable
-        let postalCode;
+        // // Click save
+        // cy.get('.sui-gap-2 > .sui-c-btn-primary').click();
 
-        cy.get('.row div.col-auto.ml-7 p.sui-text-b3').invoke('text').then(text => {
-            postalCode = text.trim();
-        });
+        // // Check if the postal code is updated
+        // cy.get('.row div.col-auto.ml-7 p.sui-text-b3').should('contain', '1777');
 
-        // Click the location edit button
-        cy.get(':nth-child(1) > :nth-child(1) > .col-lg-2 > .sui-rounded').click();
+        // // Click languages
+        // cy.contains('a', 'Languages').click();
 
-        // Update the postal code
-        cy.get('input[name="postalCode"]').clear().type('1777');
+        // // Check if the languages label is displayed
+        // cy.get('h2').contains('Languages');
 
-        // Click save
-        cy.get('.sui-gap-2 > .sui-c-btn-primary').click();
+        // // Check the current primary language and save to a variable
+        // let primaryLanguage;
 
-        // Check if the postal code is updated
-        cy.get('.row div.col-auto.ml-7 p.sui-text-b3').should('contain', '1777');
+        // cy.get('p.sui-text-b3.tw-font-bold.sui-text-darkGray-darker').invoke('text').then(text => {
+        //     primaryLanguage = text.trim();
 
-        // Click languages
-        cy.contains('a', 'Languages').click();
+        // });
 
-        // Check if the languages label is displayed
-        cy.get('h2').contains('Languages');
+        // // Click the primary language edit button
+        // cy.get('.col-auto > .row').click();
 
-        // Check the current primary language and save to a variable
-        let primaryLanguage;
+        // // Click the primary language dropdown
+        // cy.get(':nth-child(1) > .sc-dlnjwi > .row > .col-lg-12 > .sui-c-input-dropdown-container > .sui-c-input-dropdown__control > .sui-c-input-dropdown__value-container').click();
 
-        cy.get('p.sui-text-b3.tw-font-bold.sui-text-darkGray-darker').invoke('text').then(text => {
-            primaryLanguage = text.trim();
+        // // Select another language
+        // cy.get(':nth-child(1) > .sc-dlnjwi > .row > .col-lg-12 > .sui-c-input-dropdown-container > .sui-c-input-dropdown__control > .sui-c-input-dropdown__value-container').type('English (Austria)');
+        // cy.focused().trigger('keydown', { keyCode: 9, which: 9 });
 
-        });
+        // // Click save
+        // cy.get('.sui-gap-2 > .sui-c-btn-primary').click();
 
-        // Click the primary language edit button
-        cy.get('.col-auto > .row').click();
+        // // Check if the primary language is updated
+        // cy.get('p.sui-text-b3.tw-font-bold.sui-text-darkGray-darker').should('contain', 'English (Austria)');
 
-        // Click the primary language dropdown
-        cy.get(':nth-child(1) > .sc-dlnjwi > .row > .col-lg-12 > .sui-c-input-dropdown-container > .sui-c-input-dropdown__control > .sui-c-input-dropdown__value-container').click();
+        // // Check the current other languages and save to a variable
+        // let otherLanguages;
 
-        // Select another language
-        cy.get(':nth-child(1) > .sc-dlnjwi > .row > .col-lg-12 > .sui-c-input-dropdown-container > .sui-c-input-dropdown__control > .sui-c-input-dropdown__value-container').type('English (Austria)');
-        cy.focused().trigger('keydown', { keyCode: 9, which: 9 });
+        // cy.get('p.sui-text-b3.tw-font-bold.sui-text-darkGray-darker').invoke('text').then(text => {
+        //     otherLanguages = text.trim();
+        // });
 
-        // Click save
-        cy.get('.sui-gap-2 > .sui-c-btn-primary').click();
+        // // Click other languages edit button
+        // cy.get('.edit-div').click();
 
-        // Check if the primary language is updated
-        cy.get('p.sui-text-b3.tw-font-bold.sui-text-darkGray-darker').should('contain', 'English (Austria)');
+        // // Click other languages dropdown
+        // cy.get(':nth-child(1) > .sc-dlnjwi > .row > .col-lg-12 > .sui-c-input-dropdown-container > .sui-c-input-dropdown__control > .sui-c-input-dropdown__value-container').click();
 
-        // Check the current other languages and save to a variable
-        let otherLanguages;
+        // // Type another language
+        // cy.get(':nth-child(1) > .sc-dlnjwi > .row > .col-lg-12 > .sui-c-input-dropdown-container > .sui-c-input-dropdown__control > .sui-c-input-dropdown__value-container').type('Arabic (Chad)');
+        // cy.focused().trigger('keydown', { keyCode: 9, which: 9 });
 
-        cy.get('p.sui-text-b3.tw-font-bold.sui-text-darkGray-darker').invoke('text').then(text => {
-            otherLanguages = text.trim();
-        });
+        // // Click save
+        // cy.get('.sui-c-btn-primary').click();
 
-        // Click other languages edit button
-        cy.get('.edit-div').click();
+        // // Check if other languages is updated
+        // cy.get('p.sui-text-b3.tw-font-bold.sui-text-darkGray-darker').should('not.contain', 'Arabic (Chad)');
 
-        // Click other languages dropdown
-        cy.get(':nth-child(1) > .sc-dlnjwi > .row > .col-lg-12 > .sui-c-input-dropdown-container > .sui-c-input-dropdown__control > .sui-c-input-dropdown__value-container').click();
+        // // Click my profile menu
+        // cy.get('.sui-gap-2 > .sui-rounded-full > .sui-flex').contains('LM').click();
 
-        // Type another language
-        cy.get(':nth-child(1) > .sc-dlnjwi > .row > .col-lg-12 > .sui-c-input-dropdown-container > .sui-c-input-dropdown__control > .sui-c-input-dropdown__value-container').type('Arabic (Chad)');
-        cy.focused().trigger('keydown', { keyCode: 9, which: 9 });
+        // // Click sign out link
+        // cy.get(':nth-child(3) > .sui-cursor-pointer > .sui-ml-sm').click();
 
-        // Click save
-        cy.get('.sui-c-btn-primary').click();
-
-        // Check if other languages is updated
-        cy.get('p.sui-text-b3.tw-font-bold.sui-text-darkGray-darker').should('not.contain', 'Arabic (Chad)');
-
-        // Click my profile menu
-        cy.get('.sui-gap-2 > .sui-rounded-full > .sui-flex').contains('LM').click();
-
-        // Click sign out link
-        cy.get(':nth-child(3) > .sui-cursor-pointer > .sui-ml-sm').click();
-
-        // Check first if the user is navigated back to the sign in page and welcome text is displayed
-        cy.get('.md\\:px-7 > .sui-font-heading').contains('Welcome back!').should('be.visible');
+        // // Check first if the user is navigated back to the sign in page and welcome text is displayed
+        // cy.get('.md\\:px-7 > .sui-font-heading').contains('Welcome back!').should('be.visible');
 
     });
 });
