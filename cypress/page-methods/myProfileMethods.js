@@ -69,6 +69,8 @@ export function editPostalCode() {
 
         myProfileMethods.elements.postalCodeLabel().should('contain', newPostalCode);
     });
+
+    cy.screenshot();
 }
 
 export function clickLanguagesLink() {
@@ -123,4 +125,6 @@ export function changeOtherLanguage() {
 
         myProfileMethods.elements.otherLanguageLabel().should('contain', newOtherLanguage);
     });
+
+    cy.screenshot();
 }

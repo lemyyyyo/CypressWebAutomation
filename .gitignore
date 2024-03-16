@@ -2,4 +2,5 @@
 /cypress/downloads/
 /cypress/reports/
 /cypress/videos/
+/cypress/screenshots/
 /cypress/sample-specs/

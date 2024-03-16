@@ -14,6 +14,8 @@ export function clickProfileIcon(initials) {
 }
 
 export function verifyProfileDetails(username, email, userid) {
+    cy.screenshot();
+    
     navigationsPage.elements.userDetails()
     .should('contain', username)
     .should('contain', email)
