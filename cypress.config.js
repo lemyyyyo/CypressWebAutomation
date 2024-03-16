@@ -24,6 +24,8 @@ module.exports = defineConfig({
 
   e2e: {
 
+    specPattern: 'cypress/**/**/*.cy.{js,jsx,ts,tsx}',
+
     experimentalModifyObstructiveThirdPartyCode: true,
 
     setupNodeEvents(on, config) {

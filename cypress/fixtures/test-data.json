@@ -4,5 +4,6 @@
   "password": "TelusIntPass13!",
   "fullname": "Limuel Il Menorca",
   "initials": "LM",
-  "userid": "65f2973cbb4e7cf68cb8eca2"
+  "userid": "65f2973cbb4e7cf68cb8eca2",
+  "apibaseurl": "https://simple-books-api.glitch.me/"
 }
