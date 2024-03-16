@@ -7,6 +7,7 @@ export function checkMyProfileText() {
 }
 
 export function checkAvatarIcon(initials) {
+    myProfileMethods.elements.myProfileHeader().should('be.visible');
     myProfileMethods.elements.avatarIcon().should('contain', initials);
 }
 
@@ -21,6 +22,8 @@ export function checkContactInfoText() {
 }
 
 export function editPhoneNumber() {
+    myProfileMethods.elements.myProfileHeader().should('be.visible');
+
     myProfileMethods.elements.phoneNumberLabel().invoke('text').then(currentPhoneNumber => {
         currentPhoneNumber = currentPhoneNumber.trim();
 
@@ -46,6 +49,8 @@ export function checkLocationText() {
 }
 
 export function editPostalCode() {
+    myProfileMethods.elements.locationText().should('be.visible');
+
     myProfileMethods.elements.postalCodeLabel().invoke('text').then(currentPostalCode => {
         currentPostalCode = currentPostalCode.trim();
 
@@ -75,6 +80,8 @@ export function checkLanguagesText() {
 }
 
 export function changePrimaryLanguage() {
+    myProfileMethods.elements.languagesLabel().should('be.visible');
+
     myProfileMethods.elements.primaryLanguageLabel().invoke('text').then(currentPrimaryLanguage => {
         currentPrimaryLanguage = currentPrimaryLanguage.trim();
 

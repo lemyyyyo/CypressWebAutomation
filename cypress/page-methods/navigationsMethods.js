@@ -8,7 +8,8 @@ export function verifyProfileIcon(initials) {
     navigationsPage.elements.profileIcon().should('contain', initials);
 }
 
-export function clickProfileIcon() {
+export function clickProfileIcon(initials) {
+    navigationsPage.elements.profileIcon().should('contain', initials);
     navigationsPage.elements.profileIcon().click();
 }
 
