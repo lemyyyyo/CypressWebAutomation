@@ -189,14 +189,14 @@ describe('E2E Test: User Profile Editing', () => {
             cy.get('p.sui-text-b3.tw-font-bold.sui-text-darkGray-darker').should('not.contain', newOtherLanguage);
         });
 
-        // // Click my profile menu
-        // cy.get('.sui-gap-2 > .sui-rounded-full > .sui-flex').contains('LM').click();
+        // Click my profile menu
+        cy.get('.sui-gap-2 > .sui-rounded-full > .sui-flex').contains('LM').click();
 
-        // // Click sign out link
-        // cy.get(':nth-child(3) > .sui-cursor-pointer > .sui-ml-sm').click();
+        // Click sign out link
+        cy.get(':nth-child(3) > .sui-cursor-pointer > .sui-ml-sm').click();
 
-        // // Check first if the user is navigated back to the sign in page and welcome text is displayed
-        // cy.get('.md\\:px-7 > .sui-font-heading').contains('Welcome back!').should('be.visible');
+        // Check first if the user is navigated back to the sign in page and welcome text is displayed
+        cy.get('.md\\:px-7 > .sui-font-heading').contains('Welcome back!').should('be.visible');
 
     });
 });
