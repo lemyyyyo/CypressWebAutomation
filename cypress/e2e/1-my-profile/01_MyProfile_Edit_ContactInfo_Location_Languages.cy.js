@@ -5,21 +5,23 @@ import * as homeMethods from '../../page-methods/homeMethods';
 import * as navigationsMethods from '../../page-methods/navigationsMethods';
 import * as myProfileMethods from '../../page-methods/myProfileMethods';
 
+const testData = require("../../fixtures/test-data.json")
+
 describe('E2E Test: User Profile Editing', () => {
     beforeEach(() => {
-        cy.visit('https://www.telusinternational.ai/cmp');
+        cy.visit(testData.baseurl);
     });
 
     it('should log in, edit profile, add languages, and log out', () => {
-        cy.url().should('include', 'https://www.telusinternational.ai/cmp/');
-        loginMethods.signIn('menorcalimuel@gmail.com', 'TelusIntPass13!');
-        cy.url().should('eq', 'https://www.telusinternational.ai/cmp/contributor/dashboard');
-        homeMethods.checkUserInfo('Limuel Il Menorca', 'menorcalimuel@gmail.com', '65f2973cbb4e7cf68cb8eca2');
-        navigationsMethods.clickProfileIcon('LM');
-        navigationsMethods.verifyProfileDetails('Limuel Il Menorca', 'menorcalimuel@gmail.com', '65f2973cbb4e7cf68cb8eca2');
+        cy.url().should('include', testData.baseurl);
+        loginMethods.signIn(testData.username, testData.password);
+        cy.url().should('eq', testData.baseurl + 'contributor/dashboard');
+        homeMethods.checkUserInfo(testData.fullname, testData.username, testData.userid);
+        navigationsMethods.clickProfileIcon(testData.initials);
+        navigationsMethods.verifyProfileDetails(testData.fullname, testData.username, testData.userid);
         navigationsMethods.clickMyProfileLink();
-        myProfileMethods.checkAvatarIcon('LM');
-        myProfileMethods.verifyMyProfileDetails('Limuel Il Menorca', 'menorcalimuel@gmail.com', '65f2973cbb4e7cf68cb8eca2');
+        myProfileMethods.checkAvatarIcon(testData.initials);
+        myProfileMethods.verifyMyProfileDetails(testData.fullname, testData.username, testData.userid);
         myProfileMethods.editPhoneNumber();
         myProfileMethods.editPostalCode();
         myProfileMethods.clickLanguagesLink();
