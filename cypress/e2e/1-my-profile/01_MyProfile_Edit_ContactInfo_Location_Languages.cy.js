@@ -88,24 +88,35 @@ describe('E2E Test: User Profile Editing', () => {
             cy.get('p.sui-text-b3').should('contain', newPhoneNumber);
         });
 
-        // // Check the current postal code and save to a variable
-        // let postalCode;
+        // Check the current postal code and save to a variable
+        cy.get('.col-lg-12 > :nth-child(3) > .col-auto > .sui-text-b3').invoke('text').then(text => {
+            const currentPostalCode = text.trim();
+            cy.log(currentPostalCode);
 
-        // cy.get('.row div.col-auto.ml-7 p.sui-text-b3').invoke('text').then(text => {
-        //     postalCode = text.trim();
-        // });
+            let newPostalCode;
+            if (currentPostalCode === '1770') {
+                newPostalCode = '1771';
+            } else if (currentPostalCode === '1771') {
+                newPostalCode = '1770';
+            }
+            cy.log(newPostalCode);
 
-        // // Click the location edit button
-        // cy.get(':nth-child(1) > :nth-child(1) > .col-lg-2 > .sui-rounded').click();
+            // Alias the new postal code to use later
+            cy.wrap(newPostalCode).as('newPostalCode');
 
-        // // Update the postal code
-        // cy.get('input[name="postalCode"]').clear().type('1777');
+            // Click the location edit button
+            cy.get(':nth-child(1) > :nth-child(1) > .col-lg-2 > .sui-rounded').click();
 
-        // // Click save
-        // cy.get('.sui-gap-2 > .sui-c-btn-primary').click();
+            // Update the postal code input with the new value
+            cy.get('input[name="postalCode"]').clear().type(newPostalCode);
 
-        // // Check if the postal code is updated
-        // cy.get('.row div.col-auto.ml-7 p.sui-text-b3').should('contain', '1777');
+            // Click save
+            cy.get('.sui-gap-2 > .sui-c-btn-primary').click();
+
+            // Check if the postal code is updated
+            cy.get('.row div.col-auto.ml-7 p.sui-text-b3').should('contain', newPostalCode);
+        });
+
 
         // // Click languages
         // cy.contains('a', 'Languages').click();
