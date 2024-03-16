@@ -156,28 +156,38 @@ describe('E2E Test: User Profile Editing', () => {
             cy.get('p.sui-text-b3.tw-font-bold.sui-text-darkGray-darker').should('contain', newLanguage);
         });
 
-        // // Check the current other languages and save to a variable
-        // let otherLanguages;
+        // Check the current other languages and save to a variable
+        cy.get(':nth-child(1) > :nth-child(1) > :nth-child(1) > .col-lg-12 > .sui-text-b3').invoke('text').then(text => {
+            const currentOtherLanguage = text.trim();
+            cy.log(currentOtherLanguage);
 
-        // cy.get('p.sui-text-b3.tw-font-bold.sui-text-darkGray-darker').invoke('text').then(text => {
-        //     otherLanguages = text.trim();
-        // });
+            let newOtherLanguage;
+            if (currentOtherLanguage === 'Arabic (Chad)') {
+                newOtherLanguage = 'Arabic (Canada)';
+            } else if (currentOtherLanguage === 'Arabic (Canada)') {
+                newOtherLanguage = 'Arabic (Chad)';
+            }
+            cy.log(newOtherLanguage);
 
-        // // Click other languages edit button
-        // cy.get('.edit-div').click();
+            // Alias the new other language to use later
+            cy.wrap(newOtherLanguage).as('newOtherLanguage');
 
-        // // Click other languages dropdown
-        // cy.get(':nth-child(1) > .sc-dlnjwi > .row > .col-lg-12 > .sui-c-input-dropdown-container > .sui-c-input-dropdown__control > .sui-c-input-dropdown__value-container').click();
+            // Click other languages edit button
+            cy.get('.edit-div').click();
 
-        // // Type another language
-        // cy.get(':nth-child(1) > .sc-dlnjwi > .row > .col-lg-12 > .sui-c-input-dropdown-container > .sui-c-input-dropdown__control > .sui-c-input-dropdown__value-container').type('Arabic (Chad)');
-        // cy.focused().trigger('keydown', { keyCode: 9, which: 9 });
+            // Click other languages dropdown
+            cy.get(':nth-child(1) > .sc-dlnjwi > .row > .col-lg-12 > .sui-c-input-dropdown-container > .sui-c-input-dropdown__control > .sui-c-input-dropdown__value-container').click();
 
-        // // Click save
-        // cy.get('.sui-c-btn-primary').click();
+            // Type another language
+            cy.get(':nth-child(1) > .sc-dlnjwi > .row > .col-lg-12 > .sui-c-input-dropdown-container > .sui-c-input-dropdown__control > .sui-c-input-dropdown__value-container').type(newOtherLanguage);
+            cy.focused().trigger('keydown', { keyCode: 9, which: 9 });
 
-        // // Check if other languages is updated
-        // cy.get('p.sui-text-b3.tw-font-bold.sui-text-darkGray-darker').should('not.contain', 'Arabic (Chad)');
+            // Click save
+            cy.get('.sui-c-btn-primary').click();
+
+            // Check if other languages is updated
+            cy.get('p.sui-text-b3.tw-font-bold.sui-text-darkGray-darker').should('not.contain', newOtherLanguage);
+        });
 
         // // Click my profile menu
         // cy.get('.sui-gap-2 > .sui-rounded-full > .sui-flex').contains('LM').click();
