@@ -73,6 +73,22 @@ export function editPostalCode() {
     cy.screenshot();
 }
 
+export function editPostalCodeToBlank() {
+    myProfileMethods.elements.locationText().should('be.visible');
+    myProfileMethods.elements.postalCodeLabel().invoke('text').then(currentPostalCode => {
+        currentPostalCode = currentPostalCode.trim();
+    myProfileMethods.elements.locationEditButton().click();
+    myProfileMethods.elements.postalCodeTextBox().clear().type('{selectall}{backspace}');
+    myProfileMethods.elements.saveButton().click({force: true});
+    myProfileMethods.elements.postalCodeErrorText().should('be.visible');
+    myProfileMethods.elements.cancelButton().click();
+    myProfileMethods.elements.postalCodeLabel().should('contain', currentPostalCode);
+});
+
+    cy.screenshot();
+}
+
+
 export function clickLanguagesLink() {
     myProfileMethods.elements.languagesLink().click();
 }

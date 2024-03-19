@@ -7,6 +7,9 @@ class MyProfilePage {
         phoneNumberLabel: () => cy.get('.mb-7 > .col > .sui-text-b3'),
         contactEditButton: () => cy.get('.figma-section-header-text-margin > .col-lg-2 > .sui-rounded'),
         phoneNumberTextBox: () => cy.get('input[name="phone_number.line_number"]'),
+        cancelButton: () => cy.get('.sui-c-btn-secondary'),
+        postalCodeErrorText: () => cy.get('.pl-0 > div > .sui-text-danger').contains('Postal code is required'),
+        
         saveButton: () => cy.get('.sui-gap-2 > .sui-c-btn-primary'),
         locationText: () => cy.get(':nth-child(1) > :nth-child(1) > .col-lg-10 > .sui-font-heading').contains('Location'),
         postalCodeLabel: () => cy.get('.col-lg-12 > :nth-child(3) > .col-auto > .sui-text-b3'),

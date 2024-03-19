@@ -23,7 +23,8 @@ describe('E2E Test: User Profile Editing', () => {
         myProfileMethods.checkAvatarIcon(testData.initials);
         myProfileMethods.verifyMyProfileDetails(testData.fullname, testData.username, testData.userid);
         myProfileMethods.editPhoneNumber();
-        myProfileMethods.editPostalCode();
+        myProfileMethods.editPostalCodeToBlank();
+        // myProfileMethods.editPostalCode();
         myProfileMethods.clickLanguagesLink();
         myProfileMethods.changePrimaryLanguage();
         myProfileMethods.changeOtherLanguage();

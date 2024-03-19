@@ -8,7 +8,7 @@ describe('Simple Books API Tests', () => {
       method: 'POST',
       url: testData.apibaseurl + 'api-clients/',
       body: {
-        clientName: 'Tech Exam 01',
+        clientName: 'Tech Exam 03',
         clientEmail: 'menorcalimuel03@gmail.com',
       },
     }).then((response) => {
